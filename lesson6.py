@@ -11,19 +11,41 @@ items = {
 
 
 @curry
-def buy_item(item_in_store, items):
+def buy_item(item, user):
     @State
     def state_computation(money):
-        if items.get(item_in_store):
-            if money - items[item_in_store] >= 0:
-                return [items, money - items[item_in_store]]
+        if items.get(item):
+            user['items'].append(item)
+            if money - items[item] >= 0:
+                user['money'] = money - items[item]
+                return [user, money - items[item]]
             else:
-                return 'не хватает'
-        return [items, money]
-
+                print('Не хватает мани')
+                return [user, money]
     return state_computation
 
 
-buy = unit(State, items) >> buy_item('') >> buy_item('wine') >> buy_item('wine') >> buy_item('wine') >> buy_item('chips')
-
+buy = unit(State, user) >> buy_item('wine') >> buy_item('wine') >> buy_item('wine') >> buy_item('wine')
 print(buy(user['money']))
+
+
+
+# @curry
+# def buy_item(item_in_store, items):
+#     @State
+#     def state_computation(money):
+#         if items.get(item_in_store):
+#             if money - items[item_in_store] >= 0:
+#                 return [items, money - items[item_in_store]]
+#             else:
+#                 return 'не хватает'
+#         return [items, money]
+#
+#     return state_computation
+#
+#
+# buy = unit(State, items) >> buy_item('') >> buy_item('wine') >> buy_item('wine') >> buy_item('wine') >> buy_item('chips')
+# print(buy(user['money']))
+
+
+
