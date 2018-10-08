@@ -3,17 +3,20 @@ from pymonad import Just, List, Nothing, curry
 
 begin = lambda: Just([0, 0])
 
-to_left = lambda num: lambda functor: (
+
+to_left = lambda num: lambda left_or_right: (
     Nothing
-    if abs((functor[0] + num) - functor[1]) > 4
-    else Just([functor[0] + num, functor[1]])
+    if abs((left_or_right[0] + num) - left_or_right[1]) > 4
+    else Just([left_or_right[0] + num, left_or_right[1]])
 )
 
-to_right = lambda num: lambda functor: (
+
+to_right = lambda num: lambda left_or_right: (
     Nothing
-    if abs((functor[1] + num) - functor[0]) > 4
-    else Just([functor[0], functor[1] + num])
+    if abs((left_or_right[1] + num) - left_or_right[0]) > 4
+    else Just([left_or_right[0], left_or_right[1] + num])
 )
+
 
 get_value = lambda maybe: (
     print('упал')
